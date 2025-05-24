@@ -7,28 +7,52 @@ const router = express.Router();
 const usersSchema = require("../schema/usersSchema")
 const User = new mongoose.model("User", usersSchema);
 
-// sign up api
+// Signup API
 router.post("/signup", async (req, res) => {
     try {
-        const { username, email, password } = req.body;
-        // find user in db
+        let { username, email, password } = req.body;
+
+        // Basic input validation
+        if (!username || !email || !password) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        username = username.trim();
+        email = email.trim().toLowerCase();
+        password = password.trim();
+
+        if (password.length < 6) {
+            return res.status(400).json({ message: "Password must be at least 6 characters long" });
+        }
+
+        //  Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: "Email already exists" });
+            return res.status(409).json({ message: "Email already exists" }); // 409 Conflict
         }
+
+        //  Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        //  Create new user and save to DB
         const newUser = new User({
             username,
             email,
             password: hashedPassword
         });
 
-        const result = await newUser.save();
-        // console.log(result);
-        return res.status(200).json({ message: "User created successfully" });
+        const savedUser = await newUser.save();
+
+        //  Respond with success
+        return res.status(201).json({
+            message: "User created successfully",
+            userId: savedUser._id,
+            result: savedUser
+        });
+
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        console.error("Signup error:", error.message);
+        return res.status(500).json({ message: "Server error. Please try again later." });
     }
 });
 
@@ -78,11 +102,36 @@ router.post("/login", async (req, res) => {
     }
 });
 
-
+// logout or clear cookie
 router.post("/logout", async (req, res) => {
     res.clearCookie("token");
     res.json({ message: "logout success" });
 })
+
+// Protected route to check authentication
+
+router.get("/protected", async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized" });
+    };
+
+    // verify token 
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: "Invalid token" });
+        };
+        res.json({
+            message: "user is authenticated",
+            user: {
+                user_id: decoded._id,
+                username: decoded.username,
+                email: decoded.email
+            }
+        })
+    })
+});
+
 
 
 

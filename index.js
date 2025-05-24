@@ -32,39 +32,6 @@ mongoose.connect(uri)
 // application routes
   app.use('/users',usersHandler )
  
-
-
-
-  //     // logout
-  //     app.post("/api/auth/logout", async (req, res) => {
-  //       res.clearCookie("token")
-  //       // console.log("success logout");
-  //       res.json({message: "logout successfully🙌"})
-  //     })
-  //    // Protected route to check authentication
-  //   app.get("/api/auth/protected", (req, res) => {
-  //     const token = req.cookies.token; 
-  //     if (!token) {
-  //         return res.status(401).json({ message: "Unauthorized" });
-  //     }
-
-  //     // Verify the token
-  //     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-  //         if (err) {
-  //             return res.status(401).json({ message: "Invalid token" });
-  //         }
-          
-  //         res.json({
-  //             message: "User is authenticated",
-  //             user: {
-  //                 user_id: decoded.user_id,    
-  //                 username: decoded.username,   
-  //                 email: decoded.email,         
-  //             }
-  //         });
-  //     });
-  //   });
-      
       
   //   app.get('/cloths', async (req, res) => {
   //     const search = req.query.search || "";
