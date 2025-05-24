@@ -61,6 +61,7 @@ router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
+        
         if (!user) {
             return res.status(400).json({ message: "user not found !" });
         }
@@ -74,7 +75,8 @@ router.post("/login", async (req, res) => {
             {
                 user_id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                createdAt : user.createdAt
             },
             process.env.JWT_SECRET, {
             expiresIn: "1d"
@@ -92,7 +94,8 @@ router.post("/login", async (req, res) => {
             user: {
                 _id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                createdAt: user.createdAt
             }
         })
         

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const usersHandler = require("./handler/usersHandlers");
+const clothsHandler = require("./handler/clothsHandler");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -30,25 +31,10 @@ mongoose.connect(uri)
 
 
 // application routes
-  app.use('/users',usersHandler )
+app.use('/users', usersHandler);
+app.use("/cloths", clothsHandler);
+
  
-      
-  //   app.get('/cloths', async (req, res) => {
-  //     const search = req.query.search || "";
-  
-  //     const query = search
-  //         ? {
-  //             $or: [
-  //                 { name: { $regex: search, $options: "i" } },
-  //                 { brand: { $regex: search, $options: "i" } },
-  //                 { category: { $regex: search, $options: "i" } },
-  //             ],
-  //         }
-  //         : {}; 
-  
-  //     const result = await clothCollection.find(query).toArray();
-  //     res.send(result);
-  // });
   
   //     // get single cloth
   //     app.get('/single-product/:id', async (req, res) => {
