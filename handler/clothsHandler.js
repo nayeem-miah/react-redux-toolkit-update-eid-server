@@ -23,10 +23,20 @@ router.get("/all-products", async (req, res) => {
 });
 router.post("/add-product", async (req, res) => {
      
- })
-router.get("/product/:id", async (req, res) => {
-     
- })
+})
+
+//  get single data 
+router.get("/single-product/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const query = { _id: id }
+        const result = await Cloths.findOne(query);
+        res.status(200).json({ data: result })
+    } catch (error) {
+        return res.status(500).json({ message: "something is wrong ", error })
+    }
+});
+
 router.put("/updated-product/:id", async (req, res) => {
      
  })

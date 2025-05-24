@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const jwt = require('jsonwebtoken');
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const usersHandler = require("./handler/usersHandlers");
@@ -77,15 +76,6 @@ app.use("/cloths", clothsHandler);
   //     })
 
 
-  //     // Send a ping to confirm a successful connection
-  //     await client.db("admin").command({ ping: 1 });
-  //     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  //   } finally {
-  //     // Ensures that the client will close when you finish/error
-  //     // await client.close();
-  //   }
-  // }
-  // run().catch(console.dir);
 
 // default error handler
 const errorHandler = (err, req, res, next) => {
@@ -94,7 +84,7 @@ const errorHandler = (err, req, res, next) => {
   }
   res.status(500).json({ message: err.message })
 };
-app.use(errorHandler)
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.send("Hello World! from eid-special");
