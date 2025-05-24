@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const usersHandler = require("./handler/usersHandlers");
 const clothsHandler = require("./handler/clothsHandler");
+const addToCartHandler = require("./handler/addToProductHandler");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,18 +33,11 @@ mongoose.connect(uri)
 // application routes
 app.use('/users', usersHandler);
 app.use("/cloths", clothsHandler);
+app.use("/add-cart", addToCartHandler);
+
 
  
   
-  //     // get single cloth
-  //     app.get('/single-product/:id', async (req, res) => {
-  //       const id = req.params.id;
-  //       const query = { _id: new ObjectId(id) };
-  //       const result = await clothCollection.findOne(query);
-  //       // console.log(result);
-  //       res.send(result);
-  //     })
-
   //     // add to cart product
   //     app.post('/carts', async (req, res) => {
   //       const cart = req.body;
@@ -51,11 +45,7 @@ app.use("/cloths", clothsHandler);
   //       const result = await cartCollection.insertOne(cart);
   //       res.send(result);
   //     })
-  //     // get all added product
-  //     app.get('/carts', async (req, res) => {
-  //       const result = await cartCollection.find().toArray();
-  //       res.send(result);
-  //     })
+ 
       
   //     // get single added product
   //     app.get('/cart/:email', async (req, res) => {
