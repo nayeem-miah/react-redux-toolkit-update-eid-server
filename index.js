@@ -1,14 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
+const usersHandler = require("./handler/usersHandlers");
+
 const app = express();
 const port = process.env.PORT || 5000;
 require("dotenv").config();
-// const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const jwt = require('jsonwebtoken');
-const cookieParser = require("cookie-parser");
-const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
-const usersHandler = require("./handler/usersHandlers");
 
 // Middleware
 app.use(cors({
@@ -33,66 +32,6 @@ mongoose.connect(uri)
 // application routes
   app.use('/users',usersHandler )
  
-  // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-  // const client = new MongoClient(uri, {
-  //   serverApi: {
-  //     version: ServerApiVersion.v1,
-  //     strict: true,
-  //     deprecationErrors: true,
-  //   }
-  // });
-
-  // async function run() {
-  //   try {
-  //     // Connect the client to the server	(optional starting in v4.7)
-  //     // await client.connect();
-  //     const userCollection = client.db("eidSpecial").collection("users");
-  //     const clothCollection = client.db("eidSpecial").collection("cloths");
-  //     const cartCollection = client.db("eidSpecial").collection("addToCart");
-
-
-
-  //   app.post('/api/auth/login', async (req, res) => {
-  //     try {
-  //         const { email, password } = req.body;
-  //         const user = await userCollection.findOne({ email });
-  
-  //         if (!user) {
-  //             return res.status(400).json({ message: "User not found!" });
-  //         }
-  
-  //         const isMatch = await bcrypt.compare(password, user.password);
-  //         if (!isMatch) {
-  //             return res.status(400).json({ message: "Password does not match!" });
-  //         }
-  
-  //         // Token generation 
-  //         const token = jwt.sign(
-  //             { 
-  //                 user_id: user._id,
-  //                 username: user.username, 
-  //                 email: user.email,
-  //             },
-  //             process.env.JWT_SECRET,
-  //             { expiresIn: "1d" }
-  //         );
-  
-  //         res.cookie("token", token, {
-  //             httpOnly: true,
-  //             secure: process.env.NODE_ENV === "production",
-  //             sameSite: "strict",
-  //         });
-  
-  //         res.json({
-  //             message: "Login successful!",
-  //             user: { _id: user._id, username: user.username, email: user.email }
-  //         });
-  //     } catch (error) {
-  //         console.error("Login Error:", error);
-  //         res.status(500).json({ message: "Internal server error!" });
-  //     }
-  // });
-  
 
 
 
@@ -195,14 +134,15 @@ mongoose.connect(uri)
   // }
   // run().catch(console.dir);
 
-  // default error handler
+// default error handler
 const errorHandler = (err, req, res, next) => {
-    if(res.headersSent) {
-      return next(err)
-    }
-    res.status(500).json({ message: err.message })  
+  if (res.headersSent) {
+    return next(err)
   }
-  
+  res.status(500).json({ message: err.message })
+};
+app.use(errorHandler)
+
 app.get("/", (req, res) => {
     res.send("Hello World! from eid-special");
 });
