@@ -16,6 +16,7 @@ router.get("/all-products", async (req, res) => {
         } : {};
 
         const result = await Cloths.find(query);
+        // console.log(result);
         res.status(200).json({ data: result })
     } catch (error) {
         return res.status(500).json({ message: "somethings is wrong", error })

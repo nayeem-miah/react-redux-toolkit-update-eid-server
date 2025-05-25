@@ -20,8 +20,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-// MONGODB
- const uri =`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bomlehy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bomlehy.mongodb.net/eidSpecial?retryWrites=true&w=majority&appName=Cluster0`;
+
 
 // const uri = 'mongodb://localhost:27017/eidSpecial'
 mongoose.connect(uri)
