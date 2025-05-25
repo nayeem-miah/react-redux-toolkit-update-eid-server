@@ -21,6 +21,7 @@ router.get("/all-products", async (req, res) => {
         return res.status(500).json({ message: "somethings is wrong", error })
     };
 });
+
 router.post("/add-product", async (req, res) => {
      
 })
