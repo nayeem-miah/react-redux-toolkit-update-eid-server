@@ -27,6 +27,14 @@ router.get("/get-product/:email", async (req, res) => {
 
 // delete added product
 router.delete("/delete-product/:id", async (req, res) => {
-})
+    try {
+        const id = req.params.id;
+        const query = { _id: id }
+        const result = await AddToCart.deleteOne(query);
+        res.status(200).json({ message: "deleted success" })
+    } catch (error) {
+        return res.status(500).json({ message: "something is wrong ", error: error })
+    }
+});
 
 module.exports = router;

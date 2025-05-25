@@ -6,6 +6,7 @@ const usersHandler = require("./handler/usersHandlers");
 const clothsHandler = require("./handler/clothsHandler");
 const addToCartHandler = require("./handler/addToProductHandler");
 
+// express with init
 const app = express();
 const port = process.env.PORT || 5000;
 require("dotenv").config();
@@ -17,8 +18,6 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
-
-
 
 
 // MONGODB
@@ -34,37 +33,6 @@ mongoose.connect(uri)
 app.use('/users', usersHandler);
 app.use("/cloths", clothsHandler);
 app.use("/add-cart", addToCartHandler);
-
-
- 
-  
-  //     // add to cart product
-  //     app.post('/carts', async (req, res) => {
-  //       const cart = req.body;
-  //       // console.log(cart);
-  //       const result = await cartCollection.insertOne(cart);
-  //       res.send(result);
-  //     })
- 
-      
-  //     // get single added product
-  //     app.get('/cart/:email', async (req, res) => {
-  //       const email = req.params.email;
-  //       const query = { email: email };
-  //       const result = await cartCollection.find(query).toArray();
-  //       // console.log(result);
-  //       res.send(result);
-  //     })
-
-  //     // delete added product
-  //     app.delete('/cart-delete/:id', async (req, res) => {
-  //       const id = req.params.id;
-  //       const query = { _id: new ObjectId(id) };
-  //       const result = await cartCollection.deleteOne(query);
-  //       // console.log(result);
-  //       res.send(result);
-  //     })
-
 
 
 // default error handler
